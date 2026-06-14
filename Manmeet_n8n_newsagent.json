@@ -1,0 +1,188 @@
+{
+  "name": "My workflow 3",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 8
+            }
+          ]
+        }
+      },
+      "id": "8c1dd59c-3c0f-4726-8e78-17047253422b",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -96,
+        -64
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://techcrunch.com/feed/",
+        "options": {}
+      },
+      "id": "9ae81413-7071-4cb2-90b3-349d3529a741",
+      "name": "RSS Read",
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1,
+      "position": [
+        128,
+        -64
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "f3bfc123-15dc-40cb-a3a7-2587cd1d4985",
+      "name": "Limit to 3 Articles",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        352,
+        -64
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Please analyze this article:\nTitle: {{ $json.title }}\nContent: {{ $json.contentSnippet }}",
+        "options": {}
+      },
+      "id": "ed324c8e-37a3-4be1-895a-5e63d427449e",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        576,
+        -64
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "aggregate"
+      },
+      "id": "79209b03-e95e-4e48-a8ee-8308e2bb7c70",
+      "name": "Aggregate Summaries",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        848,
+        -64
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "let finalMessage = \"🤖 **Your Daily Tech Research Briefing** 🤖\\n\\n---------------------------------\\n\\n\";\n\nfor (const item of $input.all()[0].json.output) {\n    finalMessage += `${item}\\n\\n---------------------------------\\n\\n`;\n}\n\nreturn [{ json: { textReport: finalMessage } }];"
+      },
+      "id": "9e252b89-9a7b-4044-90a4-2c16d225ccbc",
+      "name": "Format Report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1072,
+        -64
+      ]
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.textReport }}",
+        "options": {}
+      },
+      "id": "b0d9c81f-17ad-4e38-a0a7-f3621269eae0",
+      "name": "Send Notification",
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 1,
+      "position": [
+        1296,
+        -64
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "RSS Read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read": {
+      "main": [
+        [
+          {
+            "node": "Limit to 3 Articles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit to 3 Articles": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Aggregate Summaries",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate Summaries": {
+      "main": [
+        [
+          {
+            "node": "Format Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Report": {
+      "main": [
+        [
+          {
+            "node": "Send Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "178cf102-7d66-42c1-9bf2-338b4f50dea6",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "eea4aaba0e8825b3cd1e7b08241d0c248aab046f1c901e64dd633c6bbdfc9372"
+  },
+  "nodeGroups": [],
+  "id": "HrHDrlThl6gaalGW",
+  "tags": []
+}
