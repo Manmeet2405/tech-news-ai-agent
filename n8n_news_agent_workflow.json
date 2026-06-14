@@ -1,0 +1,659 @@
+{
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -112,
+        64
+      ],
+      "id": "2f1f125a-7551-46bb-8a78-df2719192a67",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n\n  const text =\n    item.json.text ||\n    item.json.response ||\n    item.json.content ||\n    \"\";\n\n  try {\n    const data = JSON.parse(text);\n\n    return {\n      json: {\n        category: data.category,\n        summary: data.summary\n      }\n    };\n  } catch (e) {\n    return {\n      json: {\n        rawOutput: text,\n        error: \"Model did not return JSON\"\n      }\n    };\n  }\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1632,
+        -240
+      ],
+      "id": "64e99389-8f83-44a6-bf17-30272ffc7bd1",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "url": "https://openai.com/news/rss.xml",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        -464
+      ],
+      "id": "549e16ed-cd5c-4cb4-bdfd-654cfa2b715e",
+      "name": "RSS 1 AI"
+    },
+    {
+      "parameters": {
+        "url": "https://feeds.feedburner.com/TheHackersNews",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        -272
+      ],
+      "id": "84c1be92-ab4e-4a39-8f77-ae2c44730ac3",
+      "name": "RSS 2 Cybersec"
+    },
+    {
+      "parameters": {
+        "url": "https://www.tomshardware.com/feeds/all",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        -96
+      ],
+      "id": "76c014b7-f739-40fd-9ead-623d17635348",
+      "name": "RSS 3 Hardware"
+    },
+    {
+      "parameters": {
+        "url": "https://techcrunch.com/category/startups/feed/",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        64
+      ],
+      "id": "2e435c6e-d3f7-4b86-a171-12344bad038a",
+      "name": "RSS 4 Startups"
+    },
+    {
+      "parameters": {
+        "url": "https://techcrunch.com/feed/",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        208
+      ],
+      "id": "51adac6a-ef0a-48d8-be77-77f1e4e7e6cd",
+      "name": "RSS 5 General Tech"
+    },
+    {
+      "parameters": {
+        "url": "https://www.pcgamer.com/rss/",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        512
+      ],
+      "id": "91518e28-c480-4463-9216-1d3c8760e3a9",
+      "name": "RSS 7 Gaming"
+    },
+    {
+      "parameters": {
+        "url": "https://github.blog/feed/",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        368
+      ],
+      "id": "9ee1a4e8-7b00-4494-9e47-403978473074",
+      "name": "RSS 6 Programming"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        416,
+        -464
+      ],
+      "id": "7f63df46-4147-486a-92ab-2cee69c50247",
+      "name": "Limit"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        416,
+        -272
+      ],
+      "id": "5156b41b-c124-4156-a2a5-2b989a5bb63f",
+      "name": "Limit1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        416,
+        -96
+      ],
+      "id": "e8316175-d67b-47e4-be5e-016edfff2d4b",
+      "name": "Limit2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        416,
+        64
+      ],
+      "id": "bdb554ea-c2d9-4c2e-ad60-3c70c4ea00d7",
+      "name": "Limit3"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        416,
+        208
+      ],
+      "id": "eaaf76f0-dc19-4d28-9f1f-eae24cf93060",
+      "name": "Limit4"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        432,
+        368
+      ],
+      "id": "1b5292aa-c78d-4132-b70d-fabca0e921d3",
+      "name": "Limit5"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        432,
+        512
+      ],
+      "id": "e97e1b7d-10be-4bcb-af68-db50580cdbce",
+      "name": "Limit6"
+    },
+    {
+      "parameters": {
+        "numberInputs": 7
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        704,
+        -64
+      ],
+      "id": "631ef3bf-5db7-440b-8d7e-3ff521bd4a37",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "You are a technology news analyst.\n\nAnalyze the following article.\n\nTitle:\n{{ $json.title }}\n\nContent:\n{{ $json.contentSnippet }}\n\nChoose ONLY one category from:\n\nAI\nCybersecurity\nCloud\nProgramming\nHardware\nGaming\nStartups\n\nReturn only valid JSON:\n\n{\n  \"category\": \"...\",\n  \"summary\": \"...\"\n}",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        1328,
+        -192
+      ],
+      "id": "935a7932-962b-4230-9060-712963820124",
+      "name": "Basic LLM Chain",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "return {\n  json: {\n    title: $json.title,\n    content: $json.contentSnippet\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1104,
+        16
+      ],
+      "id": "95f5bdf2-a57c-4499-8129-9cbef3407e40",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        880,
+        16
+      ],
+      "id": "902ea46a-4c29-44cf-8ef2-b8513e9da2f2",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me",
+      "typeVersion": 1,
+      "position": [
+        1760,
+        256
+      ],
+      "id": "916e4ad1-0960-4edd-878a-a2ee355aa8f5",
+      "placeholder": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1088,
+        -288
+      ],
+      "id": "3166854b-6801-4102-8939-1b4a31df2fc7",
+      "name": "Wait",
+      "webhookId": "01ef8757-d09c-417f-a814-69f1d5e72d6a"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1wOjxhM5FNMvaapyMoSLofvv49s4lFcxKoueLpE72SdU",
+          "mode": "list",
+          "cachedResultName": "Tech News Database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wOjxhM5FNMvaapyMoSLofvv49s4lFcxKoueLpE72SdU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "News",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wOjxhM5FNMvaapyMoSLofvv49s4lFcxKoueLpE72SdU/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Summary",
+              "displayName": "Summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1792,
+        -80
+      ],
+      "id": "d6983d44-1d8b-4c77-8ff0-9e2b72221091",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "NheDYQhtJThu8jiO",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "RSS 1 AI",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS 2 Cybersec",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS 3 Hardware",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS 4 Startups",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS 5 General Tech",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS 6 Programming",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS 7 Gaming",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS 1 AI": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS 2 Cybersec": {
+      "main": [
+        [
+          {
+            "node": "Limit1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS 3 Hardware": {
+      "main": [
+        [
+          {
+            "node": "Limit2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS 4 Startups": {
+      "main": [
+        [
+          {
+            "node": "Limit3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS 5 General Tech": {
+      "main": [
+        [
+          {
+            "node": "Limit4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS 7 Gaming": {
+      "main": [
+        [
+          {
+            "node": "Limit6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS 6 Programming": {
+      "main": [
+        [
+          {
+            "node": "Limit5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Limit2": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Limit3": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Limit4": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "Limit5": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 5
+          }
+        ]
+      ]
+    },
+    "Limit6": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 6
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "d16cc75d-d244-488a-985b-fa07cb440c4a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "eea4aaba0e8825b3cd1e7b08241d0c248aab046f1c901e64dd633c6bbdfc9372"
+  },
+  "nodeGroups": [],
+  "id": "Qsv3p0mi3Lgx5Zxp",
+  "tags": []
+}
